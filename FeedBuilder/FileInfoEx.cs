@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.IO;
-using NAppUpdate.Framework.Utils;
 
 namespace FeedBuilder
 {
@@ -31,7 +30,7 @@ namespace FeedBuilder
 		{
 			myFileInfo = new FileInfo(fileName);
 			var verInfo = FileVersionInfo.GetVersionInfo(fileName);
-			if (myFileVersion == null)
+			if (!string.IsNullOrWhiteSpace(verInfo.FileVersion))
 				myFileVersion = new System.Version(verInfo.FileMajorPart, verInfo.FileMinorPart, verInfo.FileBuildPart, verInfo.FilePrivatePart).ToString();
 			myHash = NAppUpdate.Framework.Utils.FileChecksum.GetSHA256Checksum(fileName);
 
