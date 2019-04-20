@@ -60,6 +60,9 @@ namespace FeedBuilder
             this.ToolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.panFiles = new System.Windows.Forms.Panel();
             this.grpSettings = new System.Windows.Forms.GroupBox();
+            this.chkCleanBaseUrl = new System.Windows.Forms.CheckBox();
+            this.lblAddExtension = new System.Windows.Forms.Label();
+            this.txtAddExtension = new FeedBuilder.HelpfulTextBox(this.components);
             this.chkCleanUp = new System.Windows.Forms.CheckBox();
             this.chkCopyFiles = new System.Windows.Forms.CheckBox();
             this.lblIgnore = new System.Windows.Forms.Label();
@@ -79,8 +82,8 @@ namespace FeedBuilder
             this.cmdOutputFolder = new System.Windows.Forms.Button();
             this.txtOutputFolder = new FeedBuilder.HelpfulTextBox(this.components);
             this.lblOutputFolder = new System.Windows.Forms.Label();
-            this.txtAddExtension = new FeedBuilder.HelpfulTextBox(this.components);
-            this.lblAddExtension = new System.Windows.Forms.Label();
+            this.lblDescription = new System.Windows.Forms.Label();
+            this.txtDescription = new FeedBuilder.HelpfulTextBox(this.components);
             this.tsMain.SuspendLayout();
             this.ToolStripContainer1.ContentPanel.SuspendLayout();
             this.ToolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -102,7 +105,7 @@ namespace FeedBuilder
             this.lstFiles.Location = new System.Drawing.Point(0, 12);
             this.lstFiles.Margin = new System.Windows.Forms.Padding(0);
             this.lstFiles.Name = "lstFiles";
-            this.lstFiles.Size = new System.Drawing.Size(810, 230);
+            this.lstFiles.Size = new System.Drawing.Size(810, 247);
             this.lstFiles.SmallImageList = this.imgFiles;
             this.lstFiles.TabIndex = 0;
             this.lstFiles.UseCompatibleStateImageBehavior = false;
@@ -271,11 +274,11 @@ namespace FeedBuilder
             this.ToolStripContainer1.ContentPanel.Controls.Add(this.panFiles);
             this.ToolStripContainer1.ContentPanel.Controls.Add(this.grpSettings);
             this.ToolStripContainer1.ContentPanel.Padding = new System.Windows.Forms.Padding(12, 8, 12, 12);
-            this.ToolStripContainer1.ContentPanel.Size = new System.Drawing.Size(834, 467);
+            this.ToolStripContainer1.ContentPanel.Size = new System.Drawing.Size(834, 547);
             this.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ToolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.ToolStripContainer1.Name = "ToolStripContainer1";
-            this.ToolStripContainer1.Size = new System.Drawing.Size(834, 492);
+            this.ToolStripContainer1.Size = new System.Drawing.Size(834, 572);
             this.ToolStripContainer1.TabIndex = 3;
             this.ToolStripContainer1.Text = "ToolStripContainer1";
             // 
@@ -287,14 +290,15 @@ namespace FeedBuilder
             // 
             this.panFiles.Controls.Add(this.lstFiles);
             this.panFiles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panFiles.Location = new System.Drawing.Point(12, 213);
+            this.panFiles.Location = new System.Drawing.Point(12, 276);
             this.panFiles.Name = "panFiles";
             this.panFiles.Padding = new System.Windows.Forms.Padding(0, 12, 0, 0);
-            this.panFiles.Size = new System.Drawing.Size(810, 242);
+            this.panFiles.Size = new System.Drawing.Size(810, 259);
             this.panFiles.TabIndex = 2;
             // 
             // grpSettings
             // 
+            this.grpSettings.Controls.Add(this.chkCleanBaseUrl);
             this.grpSettings.Controls.Add(this.lblAddExtension);
             this.grpSettings.Controls.Add(this.txtAddExtension);
             this.grpSettings.Controls.Add(this.chkCleanUp);
@@ -306,7 +310,9 @@ namespace FeedBuilder
             this.grpSettings.Controls.Add(this.chkDate);
             this.grpSettings.Controls.Add(this.chkSize);
             this.grpSettings.Controls.Add(this.chkVersion);
+            this.grpSettings.Controls.Add(this.txtDescription);
             this.grpSettings.Controls.Add(this.txtBaseURL);
+            this.grpSettings.Controls.Add(this.lblDescription);
             this.grpSettings.Controls.Add(this.lblBaseURL);
             this.grpSettings.Controls.Add(this.chkIgnoreVsHost);
             this.grpSettings.Controls.Add(this.chkIgnoreSymbols);
@@ -320,17 +326,47 @@ namespace FeedBuilder
             this.grpSettings.Location = new System.Drawing.Point(12, 8);
             this.grpSettings.Name = "grpSettings";
             this.grpSettings.Padding = new System.Windows.Forms.Padding(12, 8, 12, 8);
-            this.grpSettings.Size = new System.Drawing.Size(810, 205);
+            this.grpSettings.Size = new System.Drawing.Size(810, 268);
             this.grpSettings.TabIndex = 1;
             this.grpSettings.TabStop = false;
             this.grpSettings.Text = "Settings:";
+            // 
+            // chkCleanBaseUrl
+            // 
+            this.chkCleanBaseUrl.AutoSize = true;
+            this.chkCleanBaseUrl.Location = new System.Drawing.Point(629, 182);
+            this.chkCleanBaseUrl.Name = "chkCleanBaseUrl";
+            this.chkCleanBaseUrl.Size = new System.Drawing.Size(96, 17);
+            this.chkCleanBaseUrl.TabIndex = 20;
+            this.chkCleanBaseUrl.Text = "Clean Base Url";
+            this.chkCleanBaseUrl.UseVisualStyleBackColor = true;
+            // 
+            // lblAddExtension
+            // 
+            this.lblAddExtension.AutoSize = true;
+            this.lblAddExtension.Location = new System.Drawing.Point(433, 183);
+            this.lblAddExtension.Name = "lblAddExtension";
+            this.lblAddExtension.Size = new System.Drawing.Size(77, 13);
+            this.lblAddExtension.TabIndex = 19;
+            this.lblAddExtension.Text = "Add extension:";
+            // 
+            // txtAddExtension
+            // 
+            this.txtAddExtension.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtAddExtension.HelpfulText = "Add extension to each file";
+            this.txtAddExtension.Location = new System.Drawing.Point(516, 179);
+            this.txtAddExtension.Margin = new System.Windows.Forms.Padding(3, 3, 3, 8);
+            this.txtAddExtension.Name = "txtAddExtension";
+            this.txtAddExtension.Size = new System.Drawing.Size(98, 20);
+            this.txtAddExtension.TabIndex = 18;
             // 
             // chkCleanUp
             // 
             this.chkCleanUp.AutoSize = true;
             this.chkCleanUp.Checked = true;
             this.chkCleanUp.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkCleanUp.Location = new System.Drawing.Point(293, 145);
+            this.chkCleanUp.Location = new System.Drawing.Point(293, 182);
             this.chkCleanUp.Name = "chkCleanUp";
             this.chkCleanUp.Size = new System.Drawing.Size(134, 17);
             this.chkCleanUp.TabIndex = 17;
@@ -342,7 +378,7 @@ namespace FeedBuilder
             this.chkCopyFiles.AutoSize = true;
             this.chkCopyFiles.Checked = true;
             this.chkCopyFiles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkCopyFiles.Location = new System.Drawing.Point(146, 145);
+            this.chkCopyFiles.Location = new System.Drawing.Point(146, 182);
             this.chkCopyFiles.Name = "chkCopyFiles";
             this.chkCopyFiles.Size = new System.Drawing.Size(141, 17);
             this.chkCopyFiles.TabIndex = 16;
@@ -353,7 +389,7 @@ namespace FeedBuilder
             // lblIgnore
             // 
             this.lblIgnore.AutoSize = true;
-            this.lblIgnore.Location = new System.Drawing.Point(15, 174);
+            this.lblIgnore.Location = new System.Drawing.Point(15, 211);
             this.lblIgnore.Name = "lblIgnore";
             this.lblIgnore.Size = new System.Drawing.Size(40, 13);
             this.lblIgnore.TabIndex = 15;
@@ -362,7 +398,7 @@ namespace FeedBuilder
             // lblMisc
             // 
             this.lblMisc.AutoSize = true;
-            this.lblMisc.Location = new System.Drawing.Point(15, 146);
+            this.lblMisc.Location = new System.Drawing.Point(15, 183);
             this.lblMisc.Name = "lblMisc";
             this.lblMisc.Size = new System.Drawing.Size(32, 13);
             this.lblMisc.TabIndex = 15;
@@ -371,7 +407,7 @@ namespace FeedBuilder
             // lblCompare
             // 
             this.lblCompare.AutoSize = true;
-            this.lblCompare.Location = new System.Drawing.Point(15, 118);
+            this.lblCompare.Location = new System.Drawing.Point(15, 155);
             this.lblCompare.Name = "lblCompare";
             this.lblCompare.Size = new System.Drawing.Size(52, 13);
             this.lblCompare.TabIndex = 14;
@@ -382,7 +418,7 @@ namespace FeedBuilder
             this.chkHash.AutoSize = true;
             this.chkHash.Checked = true;
             this.chkHash.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkHash.Location = new System.Drawing.Point(320, 117);
+            this.chkHash.Location = new System.Drawing.Point(320, 154);
             this.chkHash.Name = "chkHash";
             this.chkHash.Size = new System.Drawing.Size(51, 17);
             this.chkHash.TabIndex = 13;
@@ -392,7 +428,7 @@ namespace FeedBuilder
             // chkDate
             // 
             this.chkDate.AutoSize = true;
-            this.chkDate.Location = new System.Drawing.Point(265, 117);
+            this.chkDate.Location = new System.Drawing.Point(265, 154);
             this.chkDate.Name = "chkDate";
             this.chkDate.Size = new System.Drawing.Size(49, 17);
             this.chkDate.TabIndex = 12;
@@ -402,7 +438,7 @@ namespace FeedBuilder
             // chkSize
             // 
             this.chkSize.AutoSize = true;
-            this.chkSize.Location = new System.Drawing.Point(213, 117);
+            this.chkSize.Location = new System.Drawing.Point(213, 154);
             this.chkSize.Name = "chkSize";
             this.chkSize.Size = new System.Drawing.Size(46, 17);
             this.chkSize.TabIndex = 11;
@@ -414,7 +450,7 @@ namespace FeedBuilder
             this.chkVersion.AutoSize = true;
             this.chkVersion.Checked = true;
             this.chkVersion.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkVersion.Location = new System.Drawing.Point(146, 117);
+            this.chkVersion.Location = new System.Drawing.Point(146, 154);
             this.chkVersion.Margin = new System.Windows.Forms.Padding(3, 3, 3, 8);
             this.chkVersion.Name = "chkVersion";
             this.chkVersion.Size = new System.Drawing.Size(61, 17);
@@ -447,7 +483,7 @@ namespace FeedBuilder
             this.chkIgnoreVsHost.AutoSize = true;
             this.chkIgnoreVsHost.Checked = true;
             this.chkIgnoreVsHost.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIgnoreVsHost.Location = new System.Drawing.Point(293, 173);
+            this.chkIgnoreVsHost.Location = new System.Drawing.Point(293, 210);
             this.chkIgnoreVsHost.Name = "chkIgnoreVsHost";
             this.chkIgnoreVsHost.Size = new System.Drawing.Size(103, 17);
             this.chkIgnoreVsHost.TabIndex = 7;
@@ -459,7 +495,7 @@ namespace FeedBuilder
             this.chkIgnoreSymbols.AutoSize = true;
             this.chkIgnoreSymbols.Checked = true;
             this.chkIgnoreSymbols.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIgnoreSymbols.Location = new System.Drawing.Point(146, 173);
+            this.chkIgnoreSymbols.Location = new System.Drawing.Point(146, 210);
             this.chkIgnoreSymbols.Name = "chkIgnoreSymbols";
             this.chkIgnoreSymbols.Size = new System.Drawing.Size(100, 17);
             this.chkIgnoreSymbols.TabIndex = 7;
@@ -531,25 +567,25 @@ namespace FeedBuilder
             this.lblOutputFolder.TabIndex = 0;
             this.lblOutputFolder.Text = "Project Output Folder:";
             // 
-            // txtAddExtension
+            // lblDescription
             // 
-            this.txtAddExtension.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblDescription.AutoSize = true;
+            this.lblDescription.Location = new System.Drawing.Point(15, 119);
+            this.lblDescription.Name = "lblDescription";
+            this.lblDescription.Size = new System.Drawing.Size(63, 13);
+            this.lblDescription.TabIndex = 8;
+            this.lblDescription.Text = "Description:";
+            // 
+            // txtDescription
+            // 
+            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtAddExtension.HelpfulText = "Add extension to each file";
-            this.txtAddExtension.Location = new System.Drawing.Point(516, 142);
-            this.txtAddExtension.Margin = new System.Windows.Forms.Padding(3, 3, 3, 8);
-            this.txtAddExtension.Name = "txtAddExtension";
-            this.txtAddExtension.Size = new System.Drawing.Size(98, 20);
-            this.txtAddExtension.TabIndex = 18;
-            // 
-            // lblAddExtension
-            // 
-            this.lblAddExtension.AutoSize = true;
-            this.lblAddExtension.Location = new System.Drawing.Point(433, 146);
-            this.lblAddExtension.Name = "lblAddExtension";
-            this.lblAddExtension.Size = new System.Drawing.Size(77, 13);
-            this.lblAddExtension.TabIndex = 19;
-            this.lblAddExtension.Text = "Add extension:";
+            this.txtDescription.HelpfulText = "Description of the update";
+            this.txtDescription.Location = new System.Drawing.Point(146, 116);
+            this.txtDescription.Margin = new System.Windows.Forms.Padding(3, 3, 3, 8);
+            this.txtDescription.Name = "txtDescription";
+            this.txtDescription.Size = new System.Drawing.Size(617, 20);
+            this.txtDescription.TabIndex = 9;
             // 
             // frmMain
             // 
@@ -557,7 +593,7 @@ namespace FeedBuilder
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(834, 492);
+            this.ClientSize = new System.Drawing.Size(834, 572);
             this.Controls.Add(this.ToolStripContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(850, 530);
@@ -627,5 +663,8 @@ namespace FeedBuilder
 		private ToolStripSeparator toolStripSeparator1;
         private Label lblAddExtension;
         private HelpfulTextBox txtAddExtension;
-    }
+		private CheckBox chkCleanBaseUrl;
+		private HelpfulTextBox txtDescription;
+		private Label lblDescription;
+	}
 }

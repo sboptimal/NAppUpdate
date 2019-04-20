@@ -18,7 +18,7 @@ namespace FeedBuilder
 		{
 			foreach (string thisArg in args)
 			{
-				if (thisArg.ToLower() == Application.ExecutablePath.ToLower() || thisArg.ToLower().Contains(".vshost.exe")) continue;
+				if (string.Equals(thisArg, Application.ExecutablePath, StringComparison.OrdinalIgnoreCase) || thisArg.IndexOf(".vshost.exe", StringComparison.OrdinalIgnoreCase) >= 0) continue;
 
 				string arg = CleanArg(thisArg);
 				if (arg == "build")
@@ -36,13 +36,20 @@ namespace FeedBuilder
 					OpenOutputsFolder = true;
 					HasArgs = true;
 				}
+				else if (arg == "waitondebugger")
+				{
+					Console.WriteLine("Waiting for a debugger to attach...");
+					while (!System.Diagnostics.Debugger.IsAttached)
+						System.Threading.Thread.Sleep(500);
+					Console.WriteLine("Debugger attached!!");
+				}
 				else if (IsValidFileName(thisArg))
 				{
 					// keep the same character casing as we were originally provided
 					FileName = thisArg;
 					HasArgs = true;
 				}
-				else Console.WriteLine("Unrecognized arg '{0}'", arg);
+				else Console.WriteLine("Unrecognised argument '{0}'", arg);
 			}
 		}
 

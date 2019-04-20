@@ -105,9 +105,11 @@ namespace FeedBuilder
 			chkIgnoreVsHost.Checked = Settings.Default.IgnoreVsHosting;
 			chkCopyFiles.Checked = Settings.Default.CopyFiles;
 			chkCleanUp.Checked = Settings.Default.CleanUp;
-            txtAddExtension.Text = Settings.Default.AddExtension;
+			txtAddExtension.Text = Settings.Default.AddExtension;
+			chkCleanBaseUrl.Checked = Settings.Default.CleanBaseUrl;
+			txtDescription.Text = Settings.Default.Description;
 
-            if (Settings.Default.IgnoreFiles == null) Settings.Default.IgnoreFiles = new StringCollection();
+			if (Settings.Default.IgnoreFiles == null) Settings.Default.IgnoreFiles = new StringCollection();
 			ReadFiles();
 			UpdateTitle();
 		}
@@ -126,9 +128,9 @@ namespace FeedBuilder
 			// ReSharper restore AssignNullToNotNullAttribute
 			if (!string.IsNullOrEmpty(txtBaseURL.Text.Trim())) Settings.Default.BaseURL = txtBaseURL.Text.Trim();
 
-            if (!string.IsNullOrEmpty(txtAddExtension.Text.Trim())) Settings.Default.AddExtension = txtAddExtension.Text.Trim();
+			if (!string.IsNullOrEmpty(txtAddExtension.Text.Trim())) Settings.Default.AddExtension = txtAddExtension.Text.Trim();
 
-            Settings.Default.CompareVersion = chkVersion.Checked;
+			Settings.Default.CompareVersion = chkVersion.Checked;
 			Settings.Default.CompareSize = chkSize.Checked;
 			Settings.Default.CompareDate = chkDate.Checked;
 			Settings.Default.CompareHash = chkHash.Checked;
@@ -144,6 +146,9 @@ namespace FeedBuilder
 			{
 				if (!thisItem.Checked) Settings.Default.IgnoreFiles.Add(thisItem.Text);
 			}
+
+			Settings.Default.CleanBaseUrl = chkCleanBaseUrl.Checked;
+			Settings.Default.Description = txtDescription.Text;
 		}
 
 		private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -256,15 +261,32 @@ namespace FeedBuilder
 			// If the target folder doesn't exist, create a path to it
 			string dest = txtFeedXML.Text.Trim();
 			var destDir = Directory.GetParent(GetFullDirectoryPath(Path.GetDirectoryName(dest)));
-			if (!Directory.Exists(destDir.FullName)) Directory.CreateDirectory(destDir.FullName);
+			if (Directory.Exists(destDir.FullName))
+			{
+				if(chkCleanBaseUrl.Checked)
+				{
+					try
+					{
+						Directory.Delete(destDir.FullName, true);
+						Directory.CreateDirectory(destDir.FullName);
+					}
+					catch
+					{
 
+					}
+				}
+			}
+			else
+			{
+				Directory.CreateDirectory(destDir.FullName);
+			}
 			XmlDocument doc = new XmlDocument();
 			XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
 
 			doc.AppendChild(dec);
 			XmlElement feed = doc.CreateElement("Feed");
 			if (!string.IsNullOrEmpty(txtBaseURL.Text.Trim())) feed.SetAttribute("BaseUrl", txtBaseURL.Text.Trim());
-			doc.AppendChild(feed);
+			doc.AppendChild(feed);			
 
 			XmlElement tasks = doc.CreateElement("Tasks");
 
@@ -297,8 +319,8 @@ namespace FeedBuilder
 					var fileInfoEx = (FileInfoEx)thisItem.Tag;
 					XmlElement task = doc.CreateElement("FileUpdateTask");
 					task.SetAttribute("localPath", fileInfoEx.RelativeName);
-                    // generate FileUpdateTask metadata items
-                    task.SetAttribute("lastModified", fileInfoEx.FileInfo.LastWriteTime.ToFileTime().ToString(CultureInfo.InvariantCulture));
+					// generate FileUpdateTask metadata items
+					task.SetAttribute("lastModified", fileInfoEx.FileInfo.LastWriteTime.ToFileTime().ToString(CultureInfo.InvariantCulture));
 					if (!string.IsNullOrEmpty(txtAddExtension.Text))
 					{
 						task.SetAttribute("updateTo", AddExtensionToPath(fileInfoEx.RelativeName, txtAddExtension.Text));
@@ -306,6 +328,9 @@ namespace FeedBuilder
 
 					task.SetAttribute("fileSize", fileInfoEx.FileInfo.Length.ToString(CultureInfo.InvariantCulture));
 					if (!string.IsNullOrEmpty(fileInfoEx.FileVersion)) task.SetAttribute("version", fileInfoEx.FileVersion);
+
+					XmlElement description = doc.CreateElement("Description");
+					description.InnerText = txtDescription.Text;
 
 					XmlElement conds = doc.CreateElement("Conditions");
 					XmlElement cond;
@@ -357,6 +382,7 @@ namespace FeedBuilder
 					}
 
 					if (conds.ChildNodes.Count == 0) itemsMissingConditions++;
+					task.AppendChild(description);
 					task.AppendChild(conds);
 					tasks.AppendChild(task);
 
@@ -417,7 +443,7 @@ namespace FeedBuilder
 				try
 				{
 					if (File.Exists(destFile)) File.Delete(destFile);
-                    File.Copy(sourceFile, destFile);
+					File.Copy(sourceFile, destFile);
 					retries = 0; // success
 					return true;
 				}
@@ -568,8 +594,13 @@ namespace FeedBuilder
 		private bool IsIgnorable(string filename)
 		{
 			string ext = Path.GetExtension(filename);
+			foreach(var fileorExt in Settings.Default.IgnoreFiles)
+			{
+				var ignorefile = fileorExt.Replace("*", "");
+				if (filename.EndsWith(ignorefile)) return true;
+			}
 			if ((chkIgnoreSymbols.Checked && ext == ".pdb")) return true;
-			return (chkIgnoreVsHost.Checked && filename.ToLower().Contains("vshost.exe"));
+			return (chkIgnoreVsHost.Checked && filename.IndexOf("vshost.exe", StringComparison.OrdinalIgnoreCase) >= 0);
 		}
 
 		private string AddExtensionToPath(string filePath, string extension)

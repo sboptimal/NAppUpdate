@@ -45,5 +45,11 @@
     <Setting Name="AddExtension" Provider="FeedBuilder.FeedBuilderSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="CleanBaseUrl" Provider="FeedBuilder.FeedBuilderSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Description" Provider="FeedBuilder.FeedBuilderSettingsProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

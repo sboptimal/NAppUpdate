@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Feed>
+  <Tasks>
+    <FileUpdateTask localPath="FeedBuilder.exe" lastModified="132001104920691302" fileSize="132096" version="0.5.2.0">
+      <Description>Initial Release</Description>
+      <Conditions>
+        <FileExistsCondition type="or-not" />
+        <FileVersionCondition type="or" what="below" version="0.5.2.0" />
+        <FileDateCondition type="or" what="older" timestamp="132001104920691302" />
+        <FileChecksumCondition type="or-not" checksumType="sha256" checksum="C5DD84FF61F050450B93773AF610C38D30B98D4E08CC35F28BFB00D996E5BDA7" />
+      </Conditions>
+    </FileUpdateTask>
+    <FileUpdateTask localPath="NAppUpdate.Framework.dll" lastModified="132001104911101625" fileSize="172544" version="0.5.1.0">
+      <Description>Initial Release</Description>
+      <Conditions>
+        <FileExistsCondition type="or-not" />
+        <FileVersionCondition type="or" what="below" version="0.5.1.0" />
+        <FileDateCondition type="or" what="older" timestamp="132001104911101625" />
+        <FileChecksumCondition type="or-not" checksumType="sha256" checksum="D19A1140C3A5C4B430E162E29837BC67F78E8F027128324B65A232A483FEAD18" />
+      </Conditions>
+    </FileUpdateTask>
+  </Tasks>
+</Feed>

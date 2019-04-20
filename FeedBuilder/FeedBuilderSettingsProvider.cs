@@ -39,6 +39,7 @@ namespace FeedBuilder
 				if (filename == dest) return;
 				Settings.Default.Reset();
 				File.Copy(filename, dest, true);
+				Settings.Default.Reload();
 			}
 			catch (Exception ex)
 			{
@@ -171,7 +172,7 @@ namespace FeedBuilder
 			{
 				string path = IsRoaming(setting) ? string.Format("{0}/{1}", SETTINGSROOT, setting.Name) : string.Format("{0}/{1}/{2}", SETTINGSROOT, Environment.MachineName, setting.Name);
 
-				if (setting.PropertyType.BaseType != null && setting.PropertyType.BaseType.Name == "CollectionBase")
+				if (setting.PropertyType != null && setting.PropertyType.Name == "StringCollection")
 				{
 					XmlNode selectSingleNode = SettingsXML.SelectSingleNode(path);
 					if (selectSingleNode != null) ret = selectSingleNode.InnerXml;
