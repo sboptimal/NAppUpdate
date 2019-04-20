@@ -16,8 +16,8 @@ namespace NAppUpdate.SampleApp
 	{
 		private readonly UpdateManager _updateManager;
 		private readonly UpdateTaskHelper _helper;
-		private IList<UpdateTaskInfo> _updates;
-		private int _downloadProgress;
+		//private IList<UpdateTaskInfo> _updates;
+		//private int _downloadProgress;
 
 		public UpdateWindow()
 		{

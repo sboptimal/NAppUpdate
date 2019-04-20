@@ -186,8 +186,6 @@ namespace NAppUpdate.Updater
 
 				if (t.ExecutionStatus != TaskExecutionStatus.Successful)
 				{
-					string taskFailedMessage = string.Format("Update failed, task execution failed, description: {0}, execution status: {1}", t, t.ExecutionStatus);
-					throw new Exception(taskFailedMessage, exception);
 					updateFailed = true;
 					break;
 				}
